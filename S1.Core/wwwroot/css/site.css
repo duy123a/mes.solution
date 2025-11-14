@@ -1,0 +1,298 @@
+﻿:root {
+    /* Brand Colors */
+    --demo-primary: #2BA7A4;
+    --demo-primary-hover: #30cfc0;
+    --demo-secondary: #F15B5B;
+    --demo-secondary-hover: #f57c7c;
+    --demo-dark: rgba(58, 74, 114, 1);
+    --demo-focus: #258cfb;
+    --demo-profile-update: #E0F4FF;
+    --demo-indigo: #3A4A72;
+    --demo-gray: #F4F4F4;
+    --demo-black-2: #ABAFB1;
+    /* Neutral Colors */
+    --demo-white: #ffffff;
+    --demo-light-gray: #f9f9f9;
+    --demo-border: #b0c4de;
+    --demo-overlay: rgba(0, 0, 0, 0.5);
+    --demo-danger: #F75A5A;
+    --demo-danger-hover: #b02a37;
+    /* Gradients */
+    --demo-gradient-primary: linear-gradient(135deg, #2BA7A4 0%, #30cfc0 100%);
+    --demo-gradient-secondary: linear-gradient(135deg, #F15B5B 0%, #f57c7c 100%);
+    /* Sidebar & Neutral Extensions */
+    --demo-text-muted: #969696;
+    --demo-hover-sidebar-bg: rgba(0, 0, 0, 0.04);
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+.no-animate {
+    transition: none !important;
+}
+
+.main-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+    .main-container > :first-child:nth-last-child(2) {
+        flex: 0 0 240px;
+    }
+
+        .main-container > :first-child:nth-last-child(2) ~ * {
+            flex: 1 1 auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+    .main-container > :first-child {
+        min-height: 100vh;
+    }
+
+/* --- MOBILE LAYOUT (xl size on Bootstrap) --- */
+@media (max-width: 1200px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+        .main-container > :first-child {
+            min-height: auto; /* bỏ 100vh khi mobile */
+        }
+
+            .main-container > :first-child:nth-last-child(2),
+            .main-container > :first-child:nth-last-child(2) ~ * {
+                flex: 1 1 100%;
+            }
+
+    /* Ẩn logo desktop */
+    .sidebar-logo-desktop {
+        display: none !important;
+    }
+
+    /* Hiện logo mobile */
+    .sidebar-logo-mobile {
+        display: block !important;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        z-index: 1050;
+    }
+
+    /* Avatar dropdown không full width */
+    .sidebar .dropdown .nav-link {
+        width: auto !important;
+        display: inline-flex !important;
+    }
+}
+
+.bg-demo-primary {
+    background-color: var(--demo-primary) !important;
+}
+
+btn-demo-primary {
+    color: var(--demo-primary) !important;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--demo-overlay);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.login-bg-overlay {
+    background-color: var(--demo-light-gray);
+    mix-blend-mode: multiply;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    height: 100%;
+}
+
+.login-bg-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.login-form-wrapper {
+    max-width: 450px;
+    width: 100%;
+}
+
+.login-text {
+    color: var(--demo-dark);
+    margin-bottom: 2px;
+}
+
+.login-logo {
+    width: 50vw;
+    max-width: 400px;
+    height: auto;
+}
+
+.sidebar-link {
+    color: var(--demo-text-muted);
+    border-radius: 4px;
+    padding: 10px 15px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+    .sidebar-link:hover {
+        background-color: var(--demo-hover-sidebar-bg);
+        color: var(--demo-indigo);
+    }
+
+    .sidebar-link.active {
+        background-color: var(--demo-hover-sidebar-bg);
+        color: var(--demo-indigo);
+        font-weight: normal;
+    }
+
+.btn.btn-demo-submit {
+    width: 100%;
+    background-color: var(--demo-primary);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+    .btn.btn-demo-submit:hover {
+        background-color: var(--demo-primary-hover);
+        color: #fff;
+    }
+
+.btn.btn-logout-yes {
+    background-color: var(--demo-secondary);
+    color: var(--demo-white);
+}
+
+    .btn.btn-logout-yes:hover {
+        background-color: var(--demo-danger-hover);
+        color: var(--demo-white);
+    }
+
+.btn.btn-logout-no {
+    background-color: var(--demo-primary);
+    color: var(--demo-white);
+}
+
+    .btn.btn-logout-no:hover {
+        background-color: var(--demo-primary-hover);
+        color: var(--demo-white);
+    }
+
+.text-demo-primary {
+    color: var(--demo-primary);
+}
+
+.text-demo-secondary {
+    color: var(--demo-secondary);
+}
+
+.text-demo-indigo {
+    color: var(--demo-indigo);
+}
+
+@media (max-width: 576px) {
+    #notificationList {
+        left: -100% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+    }
+}
+
+#notificationList .dropdown-item {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+}
+
+/* ensure dropdown notifications keep expected colors */
+.dropdown-menu .dropdown-item.notification-item {
+    color: inherit;
+    background-color: transparent;
+}
+
+    /* unread: subtle red bg, hover/focus stronger */
+    .dropdown-menu .dropdown-item.notification-item.notification-unread {
+        background-color: #ffe0e0;
+        color: inherit;
+    }
+
+        .dropdown-menu .dropdown-item.notification-item.notification-unread:hover,
+        .dropdown-menu .dropdown-item.notification-item.notification-unread:focus {
+            background-color: #ffc4c4 !important;
+            color: inherit !important;
+        }
+
+    /* read: light gray bg on hover */
+    .dropdown-menu .dropdown-item.notification-item.notification-read:hover,
+    .dropdown-menu .dropdown-item.notification-item.notification-read:focus {
+        background-color: #f8f9fa !important;
+        color: inherit !important;
+    }
+
+    /* prevent Bootstrap's :active from turning text white on click */
+    .dropdown-menu .dropdown-item.notification-item:active,
+    .dropdown-menu .dropdown-item.notification-item:focus {
+        color: inherit !important;
+        background-color: inherit !important;
+    }
+
+    /* optional: text wrap and spacing */
+    .dropdown-menu .dropdown-item.notification-item > div {
+        white-space: normal;
+        word-break: break-word;
+    }
