@@ -36,7 +36,8 @@ builder.Services.AddOpenIddict()
         opt.SetAuthorizationEndpointUris("/connect/authorize")
            .SetTokenEndpointUris("/connect/token")
            .SetRevocationEndpointUris("/connect/revoke")
-           .SetUserInfoEndpointUris("/connect/userinfo");
+           .SetUserInfoEndpointUris("/connect/userinfo")
+           .SetEndSessionEndpointUris("connect/logout");
 
         // Flows
         opt.AllowAuthorizationCodeFlow()
@@ -45,11 +46,12 @@ builder.Services.AddOpenIddict()
            .AllowRefreshTokenFlow();
 
         // Scopes
-        opt.RegisterScopes(OpenIddictConstants.Scopes.Email,
-                           OpenIddictConstants.Scopes.Profile,
-                           OpenIddictConstants.Scopes.Roles,
-                           "openid",
-                           "api");
+        opt.RegisterScopes(
+            OpenIddictConstants.Scopes.OpenId,
+            OpenIddictConstants.Scopes.Email,
+            OpenIddictConstants.Scopes.Profile,
+            OpenIddictConstants.Scopes.Roles
+        );
 
         // Keys
         // Dev: ephemeral keys, Production: replace with certificate
@@ -62,7 +64,8 @@ builder.Services.AddOpenIddict()
         opt.UseAspNetCore()
            .EnableAuthorizationEndpointPassthrough()
            .EnableTokenEndpointPassthrough()
-           .EnableUserInfoEndpointPassthrough();
+           .EnableUserInfoEndpointPassthrough()
+           .EnableEndSessionEndpointPassthrough();
     })
     .AddValidation(opt =>
     {
@@ -71,7 +74,7 @@ builder.Services.AddOpenIddict()
     });
 
 // ---------- Seed demo clients ----------
-builder.Services.AddHostedService<SeedDataService>();
+builder.Services.AddHostedService<DatabaseSeedWorker>();
 
 // ---------- MVC ----------
 builder.Services.AddAppLocalization();

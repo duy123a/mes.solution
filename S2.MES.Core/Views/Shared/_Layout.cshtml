@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using MES.Shared.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<MES.Shared.Resources.SharedResources> Localizer
+@{
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var userName = User.Identity?.Name?.Split('@').First() ?? string.Empty;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,6 +50,30 @@
             &copy; 2025 - S2.MES.Core - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <!-- Logout Modal -->
+    <div class="modal fade" id="confirmLogoutModal" tabindex="-1" aria-labelledby="confirmLogoutLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+                <!-- Title -->
+                <div class="modal-header text-white" style="background-color: #2BA7A4; ">
+                    <h5 class="modal-title w-100" id="confirmLogoutLabel">@Localizer["Logout_Confirmation"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Content -->
+                <div class="modal-body">
+                    @Html.Raw(Localizer["Logout_Confirmation_Content"])
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="modal-footer justify-content-center border-0">
+                    <button type="button" class="btn btn-logout-yes" id="confirmLogoutBtn">@Localizer["Yes"]</button>
+                    <button type="button" class="btn btn-logout-no" data-bs-dismiss="modal">@Localizer["No"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

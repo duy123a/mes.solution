@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using S2.MES.Core.Models;
 using System.Diagnostics;
-using System.Security.Claims;
 
 namespace S2.MES.Core.Controllers
 {
@@ -17,44 +14,12 @@ namespace S2.MES.Core.Controllers
             _logger = logger;
         }
 
-        [Authorize]
         public IActionResult Index()
         {
-            // Lấy user claims
-            var user = HttpContext.User;
-
-            // Log tất cả claims ra console
-            foreach (var claim in user.Claims)
-            {
-                Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
-            }
-
-            // Lấy các role riêng
-            var roles = user.Claims
-                            .Where(c => c.Type == ClaimTypes.Role || c.Type == "role")
-                            .Select(c => c.Value)
-                            .ToList();
-
-            Console.WriteLine("Roles in user claims: " + string.Join(", ", roles));
-
             return View();
         }
 
-        [AllowAnonymous]
-        public IActionResult Login()
-        {
-            return Challenge(new AuthenticationProperties { RedirectUri = "/" }, "S1");
-        }
-
-        public IActionResult Logout()
-        {
-            return SignOut(new AuthenticationProperties
-            {
-                RedirectUri = "/"
-            },
-            "S1", CookieAuthenticationDefaults.AuthenticationScheme);
-        }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

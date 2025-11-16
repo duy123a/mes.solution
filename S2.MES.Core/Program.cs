@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using MES.Shared;
+using MES.Shared.Utilities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddAppLocalization();
+builder.Services.AddControllersWithViews(o => o.AddStringTrimModelBinderProvider());
 
 // Authentication + OpenID Connect
 builder.Services.AddAuthentication(options =>
@@ -12,7 +15,11 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = "S1"; // using OpenID Connect challenge
 })
-.AddCookie()
+.AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+    options.SlidingExpiration = true;
+})
 .AddOpenIdConnect("S1", options =>
 {
     options.Authority = "https://localhost:5001";
@@ -22,24 +29,26 @@ builder.Services.AddAuthentication(options =>
     options.SaveTokens = true;
 
     options.Scope.Clear();
-    options.Scope.Add("api");
     options.Scope.Add("openid");
-    options.Scope.Add("email");
     options.Scope.Add("profile");
+    options.Scope.Add("email");
     options.Scope.Add("roles");
 
     options.GetClaimsFromUserInfoEndpoint = true;
 
     // Map role from openid scope to ClaimsPrincipal
-    options.ClaimActions.MapJsonKey(ClaimTypes.Role, ClaimTypes.Role);
+    options.ClaimActions.MapJsonKey(ClaimTypes.Role, "role");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
 
     options.TokenValidationParameters.NameClaimType = "name";
-    options.TokenValidationParameters.RoleClaimType = ClaimTypes.Role;
+    options.TokenValidationParameters.RoleClaimType = "role";
 });
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
+app.UseRequestLocalization();
 app.UseStaticFiles();
 app.UseRouting();
 
